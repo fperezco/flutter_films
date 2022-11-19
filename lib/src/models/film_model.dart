@@ -61,4 +61,11 @@ class Film {
     voteAverage = sourceJson['vote_average'] / 1; //due to double
     voteCount = sourceJson['vote_count'];
   }
+
+  String getPosterUrlPath() {
+    if (posterPath != null) {
+      return "https://image.tmdb.org/t/p/w500/$posterPath";
+    }
+    return "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
+  }
 }
