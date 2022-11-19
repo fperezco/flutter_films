@@ -8,24 +8,26 @@ class CardSwiper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //get device screen features
+    final _screenSize = MediaQuery.of(context).size;
 
-    
     return Container(
       padding: EdgeInsets.only(top: 10.0),
-      //we should envelope the Swipper into a Container because swiper needs to now
-      //the available space
-      width: double.infinity, //all the available width
-      height: 300.0,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return new Image.network(
-            "https://via.placeholder.com/350x150",
-            fit: BoxFit.fill,
+          //enclose in a ClipRRect to make circular borders
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image.network(
+              "https://via.placeholder.com/350x150",
+              fit: BoxFit.fill,
+            ),
           );
         },
-        itemCount: 3,
+        itemCount: elements.length,
         layout: SwiperLayout.STACK,
-        itemWidth: 200.0, //required due to layout STACK
+        itemWidth: _screenSize.width * 0.7, //70% of the screen size
+        itemHeight: _screenSize.height * 0.5,
       ),
     );
   }
