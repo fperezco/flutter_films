@@ -19,7 +19,7 @@ class CardSwiper extends StatelessWidget {
           return ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: Image.network(
-              "https://via.placeholder.com/350x150",
+              "https://pngimg.com/uploads/goodbye/goodbye_PNG17.png",
               fit: BoxFit.fill,
             ),
           );
