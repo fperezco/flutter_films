@@ -10,8 +10,18 @@ class FilmsProvider {
   Future<List<Film>> getNowPlaying() async {
     final url = Uri.https(_url, '3/movie/now_playing',
         {"api_key": _apiKey, "language": _language});
-
     // Await the http get response, then decode the json-formatted response.
+    return await _filmsFromResponse(url);
+  }
+
+  Future<List<Film>> getMostPopular() async {
+    final url = Uri.https(
+        _url, '3/movie/popular', {"api_key": _apiKey, "language": _language});
+    // Await the http get response, then decode the json-formatted response.
+    return await _filmsFromResponse(url);
+  }
+
+  Future<List<Film>> _filmsFromResponse(Uri url) async{
     var response = await http.get(url);
     var decodedData = convert.json.decode(response.body);
     var films = Films.fromJsonList(decodedData['results']);

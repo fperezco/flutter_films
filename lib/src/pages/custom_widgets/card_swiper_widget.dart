@@ -17,7 +17,6 @@ class CardSwiper extends StatelessWidget {
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           //enclose in a ClipRRect to make circular borders
-          print(elements[index].getPosterUrlPath());
           return ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(

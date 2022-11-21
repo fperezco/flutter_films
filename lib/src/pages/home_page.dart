@@ -15,11 +15,13 @@ class HomePage extends StatelessWidget {
           actions: [IconButton(icon: Icon(Icons.search), onPressed: null)],
         ),
         body: Container(
-          child: Column(children: <Widget>[_targetsSwipper()]),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[_nowPlayingSwiper(), _footer(context)]),
         ));
   }
 
-  Widget _targetsSwipper() {
+  Widget _nowPlayingSwiper() {
     return FutureBuilder(
       future: filmProvider.getNowPlaying(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -27,15 +29,32 @@ class HomePage extends StatelessWidget {
           return CardSwiper(elements: snapshot.data);
         } else {
           return Container(
-              height: 400.0, 
-              child: Center(
-                child: CircularProgressIndicator()
-                )
-                );
+              height: 400.0, child: Center(child: CircularProgressIndicator()));
         }
       },
     );
-    //var films = filmProvider.getNowPlaying();
-    //return CardSwiper(elements: films);
+  }
+
+  Widget _footer(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        child: Column(children: [
+          Text("Populars", style: Theme.of(context).textTheme.headline6),
+          _popularSwiper()
+        ]));
+  }
+
+  Widget _popularSwiper() {
+    return FutureBuilder(
+      future: filmProvider.getMostPopular(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return CardSwiper(elements: snapshot.data);
+        } else {
+          return Container(
+              height: 400.0, child: Center(child: CircularProgressIndicator()));
+        }
+      },
+    );
   }
 }
