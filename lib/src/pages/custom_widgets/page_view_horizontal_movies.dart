@@ -58,7 +58,7 @@ class PageViewHorizontalMovies extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(
                   image: NetworkImage(film.getPosterUrlPath()),
-                  placeholder: AssetImage('assets/loading.gif'),
+                  placeholder: AssetImage('assets/no-image.jpg'),
                   fit: BoxFit.fill //for rounded borders
                   ),
             ),

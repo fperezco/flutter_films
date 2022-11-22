@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_films/src/pages/custom_widgets/page_view_horizontal_actors.dart';
 
 import '../models/film_model.dart';
+import '../providers/films_provider.dart';
 
 class FilmDetails extends StatelessWidget {
+  final FilmsProvider filmProvider = FilmsProvider();
+
   @override
   Widget build(BuildContext context) {
     final Film? film = ModalRoute.of(context)!.settings.arguments as Film?;
@@ -18,6 +22,8 @@ class FilmDetails extends StatelessWidget {
           SizedBox(height: 10.0),
           _posterTitle(context, film),
           _filmDescription(film),
+          SizedBox(height: 15.0),
+          _actorsPageView(film)
         ]))
       ],
     ));
@@ -79,9 +85,22 @@ class FilmDetails extends StatelessWidget {
 
   Widget _filmDescription(Film film) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      margin: EdgeInsets.only(top: 10.0),
-      child: Text(film.getOverview(), textAlign: TextAlign.justify)
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        margin: EdgeInsets.only(top: 10.0),
+        child: Text(film.getOverview(), textAlign: TextAlign.justify));
+  }
+
+  Widget _actorsPageView(Film film) {
+    return FutureBuilder(
+      future: filmProvider.getActorsByMovie(film),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return PageViewHorizontalActors(elements: snapshot.data);
+        } else {
+          return Container(
+              height: 400.0, child: Center(child: CircularProgressIndicator()));
+        }
+      },
     );
   }
 }

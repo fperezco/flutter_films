@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import '../models/actor_model.dart';
 import '../models/film_model.dart';
 
 class FilmsProvider {
@@ -58,10 +59,25 @@ class FilmsProvider {
     return filmsList;
   }
 
+  Future<List<Actor>> getActorsByMovie(Film film) async {
+    var filmId = film.id.toString();
+    final url = Uri.https(_url, '3/movie/$filmId/credits',
+        {"api_key": _apiKey, "language": _language});
+    // Await the http get response, then decode the json-formatted response.
+    return await _actorsFromResponse(url);
+  }
+
   Future<List<Film>> _filmsFromResponse(Uri url) async {
     var response = await http.get(url);
     var decodedData = convert.json.decode(response.body);
     var films = Films.fromJsonList(decodedData['results']);
     return films.items;
+  }
+
+    Future<List<Actor>> _actorsFromResponse(Uri url) async {
+    var response = await http.get(url);
+    var decodedData = convert.json.decode(response.body);
+    var actors = Actors.fromJsonList(decodedData['cast']);
+    return actors.items;
   }
 }
