@@ -52,12 +52,16 @@ class FilmDetails extends StatelessWidget {
   Widget _posterTitle(BuildContext context, Film film) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
-          child: Image(
-            image: NetworkImage(film.getPosterUrlPath()),
-            height: 150.0,
+      child: Row(
+        children: [
+        Hero(
+          tag: film.getUniqueViewId(), //asociated with the previous tag in the home page
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image(
+              image: NetworkImage(film.getPosterUrlPath()),
+              height: 150.0,
+            ),
           ),
         ),
         SizedBox(width: 20.0),

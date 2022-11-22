@@ -14,6 +14,7 @@ class Films {
 }
 
 class Film {
+  String? uniqueViewId;
   bool? adult;
   String? backdropPath;
   List<int>? genreIds;
@@ -90,6 +91,13 @@ class Film {
 
   String getOverview() {
     return this.overview.toString();
-  }  
+  }
 
+  String getId() {
+    return this.id.toString();
+  }
+
+    String getUniqueViewId() {
+    return this.uniqueViewId.toString();
+  }
 }

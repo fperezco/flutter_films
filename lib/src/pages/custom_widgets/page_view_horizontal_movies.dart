@@ -50,17 +50,23 @@ class PageViewHorizontalMovies extends StatelessWidget {
   }
 
   Widget _singleCard(BuildContext context, Film film) {
+    //due to 2 components in the same page want to use hero animation
+    //and tag should be unique
+    film.uniqueViewId = film.getId() + '_fromPageViewSwipper';
     final card = Container(
         margin: EdgeInsets.only(right: 15.0),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                  image: NetworkImage(film.getPosterUrlPath()),
-                  placeholder: AssetImage('assets/no-image.jpg'),
-                  fit: BoxFit.fill //for rounded borders
-                  ),
+            Hero( //Hero animation to move card from one page to another 'fliying'
+              tag: film.getUniqueViewId(), //an unique tag from one page to another
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: FadeInImage(
+                    image: NetworkImage(film.getPosterUrlPath()),
+                    placeholder: AssetImage('assets/no-image.jpg'),
+                    fit: BoxFit.fill //for rounded borders
+                    ),
+              ),
             ),
             SizedBox(height: 3.0),
             Text(film.title!,

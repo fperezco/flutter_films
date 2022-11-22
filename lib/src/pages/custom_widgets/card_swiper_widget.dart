@@ -18,19 +18,35 @@ class CardSwiper extends StatelessWidget {
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           //enclose in a ClipRRect to make circular borders
-          return ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                  image: NetworkImage(elements[index].getPosterUrlPath()),
-                  placeholder: AssetImage('assets/loading.gif'),
-                  fit: BoxFit.fill //for rounded borders
-                  ));
+          return GestureDetector(
+            child: _cardImage(index),
+            onTap: () {
+              Navigator.pushNamed(context, 'details',
+                  arguments: elements[index]);
+            },
+          );
         },
         itemCount: elements.length,
         layout: SwiperLayout.STACK,
         itemWidth: _screenSize.width * 0.6, //70% of the screen size
         itemHeight: _screenSize.height * 0.5,
       ),
+    );
+  }
+
+  Widget _cardImage(int index) {
+    //due to 2 components in the same page want to use hero animation
+    //and tag should be unique
+    elements[index].uniqueViewId = elements[index].getId() + '_fromMainSwipper';
+    return Hero(
+      tag: elements[index].getUniqueViewId(),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: FadeInImage(
+              image: NetworkImage(elements[index].getPosterUrlPath()),
+              placeholder: AssetImage('assets/loading.gif'),
+              fit: BoxFit.fill //for rounded borders
+              )),
     );
   }
 }
