@@ -10,13 +10,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
         appBar: AppBar(
           title: Text("Latest Films"),
           backgroundColor: Colors.indigo,
           actions: [IconButton(icon: Icon(Icons.search), onPressed: null)],
         ),
-        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -61,7 +59,11 @@ class HomePage extends StatelessWidget {
           return PageViewHorizontalMovies(elements: snapshot.data);
         } else {
           return Container(
-              height: 400.0, child: Center(child: CircularProgressIndicator()));
+              height: 400.0, 
+              child: Center(
+                child: CircularProgressIndicator()
+                )
+          );
         }
       },
     );

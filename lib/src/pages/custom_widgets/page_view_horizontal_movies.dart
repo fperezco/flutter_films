@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_films/src/models/film_model.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
+// Stateless Widget due to data comes from out
 class PageViewHorizontalMovies extends StatelessWidget {
   final List<Film> elements;
 
