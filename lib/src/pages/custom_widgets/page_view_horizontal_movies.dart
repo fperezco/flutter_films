@@ -50,7 +50,7 @@ class PageViewHorizontalMovies extends StatelessWidget {
   }
 
   Widget _singleCard(BuildContext context, Film film) {
-    return Container(
+    final card = Container(
         margin: EdgeInsets.only(right: 15.0),
         child: Column(
           children: [
@@ -68,11 +68,18 @@ class PageViewHorizontalMovies extends StatelessWidget {
                 style: Theme.of(context).textTheme.caption)
           ],
         ));
+
+    return GestureDetector(
+      child: card,
+      onTap: () {
+        print("Id film tapped: ${film.id}");
+        Navigator.pushNamed(context, 'details',arguments: film);
+      },
+    );
   }
 
-
 //PageView not builder version
-    // List<Widget> _cards(BuildContext context) {
+  // List<Widget> _cards(BuildContext context) {
   //   return elements.map((film) {
   //     return Container(
   //         margin: EdgeInsets.only(right: 15.0),
