@@ -24,42 +24,75 @@ class PageViewHorizontalMovies extends StatelessWidget {
     //when the end is near => request more films
     _pageViewController.addListener((() {
       if (_pageViewController.position.pixels >=
-          _pageViewController.position.maxScrollExtent - 200) {
+          _pageViewController.position.maxScrollExtent - 100) {
         requestNextPageCallBackMethod();
       }
     }));
 
     return Container(
       height: _screenSize.height * 0.3,
-      child: PageView(
-        controller: _pageViewController,
-        pageSnapping:
-            false, //conserve the push of the movement,not suddenly stop from one to another
-        children: _cards(context),
-      ),
+      //child: PageView(
+      //   controller: _pageViewController,
+      //   pageSnapping:
+      //       false, //conserve the push of the movement,not suddenly stop from one to another
+      //   children: _cards(context),
+      // ),
+      //move to PageView.builder to save memory due to only render on demands
+      child: PageView.builder(
+          controller: _pageViewController,
+          pageSnapping:
+              false, //conserve the push of the movement,not suddenly stop from one to another
+          itemCount: elements.length,
+          itemBuilder: (BuildContext context, int index) {
+            return _singleCard(context, elements[index]);
+          }),
     );
   }
 
-  List<Widget> _cards(BuildContext context) {
-    return elements.map((film) {
-      return Container(
-          margin: EdgeInsets.only(right: 15.0),
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: FadeInImage(
-                    image: NetworkImage(film.getPosterUrlPath()),
-                    placeholder: AssetImage('assets/loading.gif'),
-                    fit: BoxFit.fill //for rounded borders
-                    ),
-              ),
-              SizedBox(height: 3.0),
-              Text(film.title!,
-                  overflow: TextOverflow.ellipsis, //to prevent very long text
-                  style: Theme.of(context).textTheme.caption)
-            ],
-          ));
-    }).toList();
+  Widget _singleCard(BuildContext context, Film film) {
+    return Container(
+        margin: EdgeInsets.only(right: 15.0),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                  image: NetworkImage(film.getPosterUrlPath()),
+                  placeholder: AssetImage('assets/loading.gif'),
+                  fit: BoxFit.fill //for rounded borders
+                  ),
+            ),
+            SizedBox(height: 3.0),
+            Text(film.title!,
+                overflow: TextOverflow.ellipsis, //to prevent very long text
+                style: Theme.of(context).textTheme.caption)
+          ],
+        ));
   }
+
+
+//PageView not builder version
+    // List<Widget> _cards(BuildContext context) {
+  //   return elements.map((film) {
+  //     return Container(
+  //         margin: EdgeInsets.only(right: 15.0),
+  //         child: Column(
+  //           children: [
+  //             ClipRRect(
+  //               borderRadius: BorderRadius.circular(20.0),
+  //               child: FadeInImage(
+  //                   image: NetworkImage(film.getPosterUrlPath()),
+  //                   placeholder: AssetImage('assets/loading.gif'),
+  //                   fit: BoxFit.fill //for rounded borders
+  //                   ),
+  //             ),
+  //             SizedBox(height: 3.0),
+  //             Text(film.title!,
+  //                 overflow: TextOverflow.ellipsis, //to prevent very long text
+  //                 style: Theme.of(context).textTheme.caption)
+  //           ],
+  //         ));
+  //   }).toList();
+  // }
+
 }
