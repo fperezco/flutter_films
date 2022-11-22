@@ -44,7 +44,8 @@ class FilmsProvider {
     // Await the http get response, then decode the json-formatted response.
     var filmsList = await _filmsFromResponse(url);
     _popularFilms.addAll(filmsList); //add list to list
-    popularFilmsSink(_popularFilms);//introduce into the stream
+    //introduce into the stream, it will trigger an action in all the listeners
+    popularFilmsSink(_popularFilms);
     return filmsList;
   }
 

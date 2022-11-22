@@ -53,7 +53,7 @@ class Film {
     originalLanguage = sourceJson['original_language'];
     originalTitle = sourceJson['original_title'];
     overview = sourceJson['overview'];
-    popularity = sourceJson['popularity'];
+    popularity = sourceJson['popularity']/1;
     posterPath = sourceJson['poster_path'];
     releaseDate = sourceJson['release_date'];
     title = sourceJson['title'];

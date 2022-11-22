@@ -5,20 +5,34 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 // Stateless Widget due to data comes from out
 class PageViewHorizontalMovies extends StatelessWidget {
   final List<Film> elements;
+  //callback function required
+  final Function requestNextPageCallBackMethod;
 
-  PageViewHorizontalMovies({required this.elements});
+  final _pageViewController = PageController(
+      initialPage: 1, viewportFraction: 0.27 //how many cards in the view
+      );
+
+  PageViewHorizontalMovies(
+      {required this.elements, required this.requestNextPageCallBackMethod});
 
   @override
   Widget build(BuildContext context) {
     //get device screen features
     final _screenSize = MediaQuery.of(context).size;
 
+    //listener to manage PageView
+    //when the end is near => request more films
+    _pageViewController.addListener((() {
+      if (_pageViewController.position.pixels >=
+          _pageViewController.position.maxScrollExtent - 200) {
+        requestNextPageCallBackMethod();
+      }
+    }));
+
     return Container(
       height: _screenSize.height * 0.3,
       child: PageView(
-        controller: PageController(
-            initialPage: 1, viewportFraction: 0.27 //how many cards in the view
-            ),
+        controller: _pageViewController,
         pageSnapping:
             false, //conserve the push of the movement,not suddenly stop from one to another
         children: _cards(context),
@@ -29,24 +43,23 @@ class PageViewHorizontalMovies extends StatelessWidget {
   List<Widget> _cards(BuildContext context) {
     return elements.map((film) {
       return Container(
-        margin: EdgeInsets.only(right: 15.0),
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                  image: NetworkImage(film.getPosterUrlPath()),
-                  placeholder: AssetImage('assets/loading.gif'),
-                  fit: BoxFit.fill //for rounded borders
-                  ),
-                  ),
-                  SizedBox(height: 3.0),
-                  Text(film.title!, 
+          margin: EdgeInsets.only(right: 15.0),
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: FadeInImage(
+                    image: NetworkImage(film.getPosterUrlPath()),
+                    placeholder: AssetImage('assets/loading.gif'),
+                    fit: BoxFit.fill //for rounded borders
+                    ),
+              ),
+              SizedBox(height: 3.0),
+              Text(film.title!,
                   overflow: TextOverflow.ellipsis, //to prevent very long text
                   style: Theme.of(context).textTheme.caption)
-          ],
-        )
-      );
+            ],
+          ));
     }).toList();
   }
 }

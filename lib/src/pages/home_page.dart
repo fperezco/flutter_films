@@ -52,18 +52,20 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _popularSwiper() {
-    return FutureBuilder(
-      future: filmProvider.getMostPopular(),
+    //first time call to fill first films
+    filmProvider.getMostPopular();
+    return StreamBuilder(
+      stream: filmProvider.popularFilmsStream, //poiint to the stream
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return PageViewHorizontalMovies(elements: snapshot.data);
+          return PageViewHorizontalMovies(
+            elements: snapshot.data,
+            //send the definition of the callback function that is going to request most films
+            requestNextPageCallBackMethod: filmProvider.getMostPopular,
+          );
         } else {
           return Container(
-              height: 400.0, 
-              child: Center(
-                child: CircularProgressIndicator()
-                )
-          );
+              height: 400.0, child: Center(child: CircularProgressIndicator()));
         }
       },
     );
