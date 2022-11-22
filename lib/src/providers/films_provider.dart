@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import '../models/film_model.dart';
@@ -7,6 +8,25 @@ class FilmsProvider {
   String _url = 'api.themoviedb.org';
   String _language = 'es-ES';
 
+  int _popularMoviesPage = 0;
+
+  //to work with the stream
+  List<Film> _popularFilms = [];
+  //broadcast for more than one listener
+  final _popularFilmsStreamController = StreamController<List<Film>>.broadcast();
+
+  //Just a way to envelope the methods of the stream inside this class
+  //define a function that invoke the sink ,add films into the stream
+  Function(List<Film>) get popularFilmsSink => _popularFilmsStreamController.sink.add;
+
+  //listen the new films in the stream
+  Stream<List<Film>> get popularFilmsStream => _popularFilmsStreamController.stream;
+
+  void dispose() {
+    //we should close the stream when we go out this widget
+    _popularFilmsStreamController?.close();
+  }
+
   Future<List<Film>> getNowPlaying() async {
     final url = Uri.https(_url, '3/movie/now_playing',
         {"api_key": _apiKey, "language": _language});
@@ -15,13 +35,20 @@ class FilmsProvider {
   }
 
   Future<List<Film>> getMostPopular() async {
-    final url = Uri.https(
-        _url, '3/movie/popular', {"api_key": _apiKey, "language": _language});
+    _popularMoviesPage++;
+    final url = Uri.https(_url, '3/movie/popular', {
+      "api_key": _apiKey,
+      "language": _language,
+      "page": _popularMoviesPage.toString()
+    });
     // Await the http get response, then decode the json-formatted response.
-    return await _filmsFromResponse(url);
+    var filmsList = await _filmsFromResponse(url);
+    _popularFilms.addAll(filmsList); //add list to list
+    popularFilmsSink(_popularFilms);//introduce into the stream
+    return filmsList;
   }
 
-  Future<List<Film>> _filmsFromResponse(Uri url) async{
+  Future<List<Film>> _filmsFromResponse(Uri url) async {
     var response = await http.get(url);
     var decodedData = convert.json.decode(response.body);
     var films = Films.fromJsonList(decodedData['results']);
