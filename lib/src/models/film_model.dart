@@ -53,7 +53,7 @@ class Film {
     originalLanguage = sourceJson['original_language'];
     originalTitle = sourceJson['original_title'];
     overview = sourceJson['overview'];
-    popularity = sourceJson['popularity']/1;
+    popularity = sourceJson['popularity'] / 1;
     posterPath = sourceJson['poster_path'];
     releaseDate = sourceJson['release_date'];
     title = sourceJson['title'];
@@ -67,5 +67,16 @@ class Film {
       return "https://image.tmdb.org/t/p/w500/$posterPath";
     }
     return "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
+  }
+
+  String getBackgroundUrlPath() {
+    if (backdropPath != null) {
+      return "https://image.tmdb.org/t/p/w500/$backdropPath";
+    }
+    return "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
+  }
+
+  String getTitle() {
+    return this.title.toString();
   }
 }

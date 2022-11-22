@@ -10,7 +10,29 @@ class FilmDetails extends StatelessWidget {
     if (film == null) return Container();
 
     return Scaffold(
-      body: Text(film.title.toString()),
-    );
+        body: CustomScrollView(
+      slivers: <Widget>[
+        _createAppBar(film),
+      ],
+    ));
+  }
+
+  Widget _createAppBar(Film film) {
+    return SliverAppBar(
+      elevation: 2.0,
+      backgroundColor: Colors.indigo,
+      expandedHeight: 200.0,
+      floating: false,
+      pinned: true,
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: true,
+        title: Text(
+          film.getTitle(),
+          style: TextStyle(color:Colors.white,fontSize: 16.0),
+      ),
+      background: FadeInImage(
+        image: NetworkImage(film.getBackgroundUrlPath()),
+        placeholder: AssetImage('assets/loading.gif')),
+    ));
   }
 }
