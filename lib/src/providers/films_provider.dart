@@ -9,18 +9,22 @@ class FilmsProvider {
   String _language = 'es-ES';
 
   int _popularMoviesPage = 0;
+  bool requestingNewPopularMoviesSet = false;
 
   //to work with the stream
   List<Film> _popularFilms = [];
   //broadcast for more than one listener
-  final _popularFilmsStreamController = StreamController<List<Film>>.broadcast();
+  final _popularFilmsStreamController =
+      StreamController<List<Film>>.broadcast();
 
   //Just a way to envelope the methods of the stream inside this class
   //define a function that invoke the sink ,add films into the stream
-  Function(List<Film>) get popularFilmsSink => _popularFilmsStreamController.sink.add;
+  Function(List<Film>) get popularFilmsSink =>
+      _popularFilmsStreamController.sink.add;
 
   //listen the new films in the stream
-  Stream<List<Film>> get popularFilmsStream => _popularFilmsStreamController.stream;
+  Stream<List<Film>> get popularFilmsStream =>
+      _popularFilmsStreamController.stream;
 
   void dispose() {
     //we should close the stream when we go out this widget
@@ -35,7 +39,11 @@ class FilmsProvider {
   }
 
   Future<List<Film>> getMostPopular() async {
+    if (requestingNewPopularMoviesSet) return [];
+    //to prevent do simultaneous calls
+    requestingNewPopularMoviesSet = true;
     _popularMoviesPage++;
+    print("loading next: $_popularMoviesPage");
     final url = Uri.https(_url, '3/movie/popular', {
       "api_key": _apiKey,
       "language": _language,
@@ -46,6 +54,7 @@ class FilmsProvider {
     _popularFilms.addAll(filmsList); //add list to list
     //introduce into the stream, it will trigger an action in all the listeners
     popularFilmsSink(_popularFilms);
+    requestingNewPopularMoviesSet = false;
     return filmsList;
   }
 
