@@ -79,4 +79,17 @@ class Film {
   String getTitle() {
     return this.title.toString();
   }
+
+  String getOriginalTitle() {
+    return this.originalTitle.toString();
+  }
+
+  String getVoteAverage() {
+    return this.voteAverage.toString();
+  }
+
+  String getOverview() {
+    return this.overview.toString();
+  }  
+
 }
