@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_films/src/providers/films_provider.dart';
+import 'package:flutter_films/src/search/search_delegate.dart';
 import 'custom_widgets/card_swiper_widget.dart';
 import 'custom_widgets/page_view_horizontal_movies.dart';
 
@@ -13,7 +14,14 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Latest Films"),
           backgroundColor: Colors.indigo,
-          actions: [IconButton(icon: Icon(Icons.search), onPressed: null)],
+          actions: [
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(
+                    context: context, delegate: DataSearch());
+                })
+          ],
         ),
         body: SingleChildScrollView(
           child: Container(

@@ -67,6 +67,14 @@ class FilmsProvider {
     return await _actorsFromResponse(url);
   }
 
+
+  Future<List<Film>> filmsByQuery(String query) async {
+    final url = Uri.https(_url, '3/search/movie',
+        {"api_key": _apiKey, "language": _language, "query": query});
+    // Await the http get response, then decode the json-formatted response.
+    return await _filmsFromResponse(url);
+  }
+
   Future<List<Film>> _filmsFromResponse(Uri url) async {
     var response = await http.get(url);
     var decodedData = convert.json.decode(response.body);
