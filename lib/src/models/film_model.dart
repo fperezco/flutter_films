@@ -97,7 +97,18 @@ class Film {
     return this.id.toString();
   }
 
-    String getUniqueViewId() {
+  String getUniqueViewId() {
     return this.uniqueViewId.toString();
+  }
+
+  String getReleasedDate() {
+    return this.releaseDate.toString();
+  }
+
+  String getReleasedYear() {
+    if (this.releaseDate != null && this.releaseDate!= "") {
+      return this.releaseDate.toString().substring(0, 4);
+    }
+    return "unknown";
   }
 }
