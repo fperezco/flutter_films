@@ -78,7 +78,6 @@ class PageViewHorizontalMovies extends StatelessWidget {
     return GestureDetector(
       child: card,
       onTap: () {
-        print("Id film tapped: ${film.id}");
         Navigator.pushNamed(context, 'details',arguments: film);
       },
     );
