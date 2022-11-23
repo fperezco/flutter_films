@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_films">
    <application
-        android:label="flutter_films"
+        android:label="KuevaFilms"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
