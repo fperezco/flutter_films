@@ -1,17 +1,22 @@
 # flutter_films
 
-A flutter project about get information about films from TheMovieDB to do some practise about
-cards, swiper, streams, bloc pattern, animations, buildactions...
+A flutter project about get information about films from TheMovieDB to do some practise about:
+ - Cards
+ - Swiper
+ - Streams
+ - Animations
+ - Buildactions
+ - Futures
+ - Future builders
+ - Consume third part http API
+ - etc..
 
-## Getting Started
+Not working on landscape by now (... :) )
 
-This project is a starting point for a Flutter application.
+From the Fernando Herrera couse at udemy.com
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<img src="doc_snapshots/global_overview.png" width="250" height="auto" alt="Global overview"/>
+<img src="doc_snapshots/details.png" width="250" height="auto" alt="Movie Details"/>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+

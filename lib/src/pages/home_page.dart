@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[_nowPlayingSwiper(), _footer(context)]),
           ),
         ));
@@ -37,7 +37,9 @@ class HomePage extends StatelessWidget {
       future: filmProvider.getNowPlaying(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return CardSwiper(elements: snapshot.data);
+          return Container(
+            height: (MediaQuery.of(context).size.height*1.9)/3,
+            child: CardSwiper(elements: snapshot.data));
         } else {
           return Container(
               height: 400.0, child: Center(child: CircularProgressIndicator()));
@@ -48,14 +50,22 @@ class HomePage extends StatelessWidget {
 
   Widget _footer(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 10.0),
+        //margin: EdgeInsets.only(top: 20.0),
+        height: (MediaQuery.of(context).size.height)/3,
         width: double.infinity,
-        child: Column(children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
           Text("Populars", style: Theme.of(context).textTheme.headline6),
           SizedBox(
             height: 10.0,
           ),
-          _popularSwiper()
+          Expanded(
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              child: _popularSwiper(),),
+          )
+            //child: _popularSwiper())
         ]));
   }
 
